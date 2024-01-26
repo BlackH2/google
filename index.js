@@ -6,7 +6,14 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 
-mongoose.connect(keys.mongoURI);
+
+mongoose.connect(`${keys.mongoURI}`)
+.then(()=>{
+    console.log('mongoose connected');
+})
+.catch((e) => {
+    console.log('Connection error:', e.message);
+});
 
 const app = express();
 
@@ -21,5 +28,5 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;  
 app.listen(PORT);
